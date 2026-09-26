@@ -1,0 +1,75 @@
+<!-- LOGIN SCREEN DISGUISE -->
+<div id="login-box" style="width: 100%; max-width: 400px; padding: 35px 30px; background-color: #ffffff; border: 2px solid #e0af43; border-radius: 8px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); box-sizing: border-box; margin: 50px auto; font-family: sans-serif;">
+    <h3 style="color: #ff8b00; margin-top: 0; letter-spacing: 1px; font-size: 1.5em;">i-Ready Access Portal</h3>
+    <div id="school-sub" style="font-size: 0.85em; color: #666; margin-bottom: 20px;">K-12 Student Assessment & Verification Engine</div>
+    <input type="password" id="password-input" placeholder="Enter Student Access Code..." style="width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #d4cbb5; background-color: #faf8f5; color: #2b2b2b; border-radius: 4px; font-size: 1em; box-sizing: border-box;">
+    <br>
+    <button class="main-btn" onclick="checkPassword()" style="padding: 12px 25px; background-color: #ff8b00; color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1em; font-weight: bold; letter-spacing: 1px; width: 100%;">GO TO DASHBOARD</button>
+    <div id="error-msg" class="hidden" style="color: #b83b3b; margin-top: 10px; font-size: 0.9em; display: none;">Invalid Access Code. Please contact your administrator.</div>
+</div>
+
+<!-- MAIN DIRECTORY (Hidden until unlocked) -->
+<div id="stream-area" class="hidden" style="display: none; width: 100%; max-width: 650px; margin: 20px auto; background-color: #ffffff; border: 1px solid #d4cbb5; box-shadow: 5px 5px 0px #2b2b2b; padding: 40px 30px; box-sizing: border-box; border-radius: 4px; font-family: 'Times New Roman', Times, serif;">
+    <div style="font-size: 0.85em; letter-spacing: 2px; color: #7a7363; margin-bottom: 20px; line-height: 24px;">
+        <div>DATE: 2026.09.26</div>
+        <div>MEMO: ACTIVE DIRECTORY FEED</div>
+    </div>
+    
+    <div id="live-links-target">
+        <!-- LINK CONTAINER MODULES -->
+        <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px dashed #e6dfcf;">
+            <div style="font-weight: bold; font-size: 1.15em; color: #2b2b2b; text-transform: uppercase; margin-bottom: 8px;">// Unblocked Directory List</div>
+            <div style="font-size: 1em; color: #2b2b2b; font-family: monospace; word-break: break-all; margin-bottom: 10px;">https://sw-metallwerkstatt.ch</div>
+            <a href="https://sw-metallwerkstatt.ch" target="_blank" style="display: inline-block; height: 32px; line-height: 32px; padding: 0 20px; background-color: #2b2b2b; color: #ffffff; text-decoration: none; font-size: 0.8em; font-weight: bold; text-transform: uppercase; border-radius: 2px;">Launch</a>
+        </div>
+        <div style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px dashed #e6dfcf;">
+            <div style="font-size: 1em; color: #2b2b2b; font-family: monospace; word-break: break-all; margin-bottom: 10px;">https://wilgaskin.com</div>
+            <a href="https://wilgaskin.com" target="_blank" style="display: inline-block; height: 32px; line-height: 32px; padding: 0 20px; background-color: #2b2b2b; color: #ffffff; text-decoration: none; font-size: 0.8em; font-weight: bold; text-transform: uppercase; border-radius: 2px;">Launch</a>
+        </div>
+    </div>
+
+    <!-- OWNER CONTROL MODULE -->
+    <div id="admin-panel" class="hidden" style="display: none; margin-top: 25px; padding: 20px; border-top: 2px solid #2b2b2b; background-color: #faf8f5; border-radius: 4px; box-shadow: 3px 3px 0px #d4cbb5;">
+        <h4 style="margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9em; color: #7a7363;">⚙️ Owner Controls Panel</h4>
+        <input type="text" id="quick-url-input" placeholder="Paste unblocked link here..." style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #d4cbb5; border-radius: 4px;">
+        <button onclick="addLinkFromPanel()" style="padding: 8px 15px; background-color: #2b2b2b; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85em;">ADD LINK</button>
+    </div>
+</div>
+
+<script>
+    const USER_PASSWORD = "people";
+    const ADMIN_PASSWORD = "admin123";
+
+    function checkPassword() {
+        const userInput = document.getElementById("password-input").value;
+        if (userInput === ADMIN_PASSWORD) {
+            document.getElementById("login-box").style.display = "none";
+            document.getElementById("stream-area").style.display = "block";
+            document.getElementById("admin-panel").style.display = "block";
+        } else if (userInput === USER_PASSWORD) {
+            document.getElementById("login-box").style.display = "none";
+            document.getElementById("stream-area").style.display = "block";
+            document.getElementById("admin-panel").style.display = "none";
+        } else {
+            document.getElementById("error-msg").style.display = "block";
+        }
+    }
+
+    function addLinkFromPanel() {
+        const urlInput = document.getElementById("quick-url-input");
+        let rawUrl = urlInput.value.trim();
+        if (!rawUrl) return;
+        if (!rawUrl.startsWith("http://") && !rawUrl.startsWith("https://")) {
+            rawUrl = "https://" + rawUrl;
+        }
+        const newLinkItem = document.createElement("div");
+        newLinkItem.style.cssText = "margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px dashed #e6dfcf;";
+        newLinkItem.innerHTML = `
+            <div style="font-size: 1em; color: #2b2b2b; font-family: monospace; word-break: break-all; margin-bottom: 10px;">${rawUrl}</div>
+            <a href="${rawUrl}" target="_blank" style="display: inline-block; height: 32px; line-height: 32px; padding: 0 20px; background-color: #2b2b2b; color: #ffffff; text-decoration: none; font-size: 0.8em; font-weight: bold; text-transform: uppercase; border-radius: 2px;">Launch</a>
+        `;
+        const targetContainer = document.getElementById("live-links-target");
+        targetContainer.insertBefore(newLinkItem, targetContainer.firstChild);
+        urlInput.value = "";
+    }
+</script>
